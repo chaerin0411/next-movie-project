@@ -1,17 +1,8 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { results } = await (await fetch("/api/movies")).json();
-      setMovies(results);
-    })();
-  }, []);
-
+export default function Home({ results }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -22,8 +13,7 @@ export default function Home() {
         <h1 className={styles.title}>Movie</h1>
 
         <p className={styles.description}>
-          {!movies && <h4>Loading...</h4>}
-          {movies?.map((movie) => (
+          {results?.map((movie) => (
             <div key={movie.id} className={styles.movie}>
               <img
                 className={styles.movieImg}
@@ -38,4 +28,15 @@ export default function Home() {
       <footer className={styles.footer}>chaerin</footer>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const { results } = await (
+    await fetch(`http://localhost:3000/api/movies`)
+  ).json();
+  return {
+    props: {
+      results,
+    },
+  };
 }
