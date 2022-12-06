@@ -20,7 +20,8 @@ export default function Home({ results }) {
 						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 					/>
 					<h4>
-						<Link legacyBehavior
+						<Link
+							legacyBehavior
 							href={`/movies/${movie.original_title}/${movie.id}`}
 						>
 							<a>{movie.original_title}</a>
